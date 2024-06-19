@@ -5,7 +5,22 @@
 //  Created by t2023-m0032 on 6/19/24.
 //
 
-import Foundation
+struct WeatherAPI: Codable {
+    let weather : [Weather]
+    let main: Main
+    let wind: Wind
+    let name: String
+}
+struct Weather: Codable {
+    let icon: String
+}
+struct Main: Codable {
+    let temp: Double
+    let humidity: Double
+}
+struct Wind: Codable {
+    let speed: Double
+}
 
 let positiveMessages = [
     "오늘도 멋진 하루 보내세요!",

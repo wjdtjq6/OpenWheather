@@ -11,23 +11,6 @@ import Alamofire
 import Kingfisher
 import CoreLocation // 1.위치 프레임워크 임포트
 
-struct WeatherAPI: Codable {
-    let weather : [Weather]
-    let main: Main
-    let wind: Wind
-    let name: String
-}
-struct Weather: Codable {
-    let icon: String
-}
-struct Main: Codable {
-    let temp: Double
-    let humidity: Double
-}
-struct Wind: Codable {
-    let speed: Double
-}
-
 class ViewController: UIViewController {
     let dateLabel = UILabel()
     let locationImage = UIImageView()
