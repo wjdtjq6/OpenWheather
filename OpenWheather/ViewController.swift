@@ -44,7 +44,7 @@ class ViewController: UIViewController {
         
         let appid = appid
         let url = "https://api.openweathermap.org/data/2.5/weather?appid=\(appid)&units=metric&lang=kr&lat=\(lat)&lon=\(lon)"
-        AF.request(url).responseDecodable(of: WeatherAPI.self) { [self] response in
+        AF.request(url).responseDecodable(of: WeatherAPI.self) { response in
             switch response.result {
             case .success(let value):
                 print(value)
@@ -75,11 +75,14 @@ class ViewController: UIViewController {
         dateLabel.text = dateFormatter.string(from: date)
     }
     @objc func refreshButtonClicked() {
-        //locationManager.startUpdatingLocation()는
-/*     case .authorizedWhenInUse:
-        print("위치 정보 알려달라고 로직 구성 가능")
-        locationManager.startUpdatingLocation() 에서만 쓰임 */
+        //권한 요청 문구 띄우기
+        //항상 띄우진 않음 '처음' 기준은?
+        //iPhone 위치 서비스를 사용중이면서
+        //notDetermined >> 권한에 대한 설정이 아예 안될때만 뜸
         checkDeviceLocationAuthorization()
+        //1)사용자에게 권한 요청을 하기 위해, iOS 위치 서비스 활성화 여부 체크
+        //2)현재 사용자의 위치 권한 상태 확인
+        //3)notDetermined일 때 권한을 요청
     }
     func configureHierarchy() {
         view.addSubview(dateLabel)
@@ -261,17 +264,7 @@ extension ViewController: CLLocationManagerDelegate { //3. 위치 관련 프로�
     //7.사용자 권한 상태가 변경이 될때(iOS14기준으로 다름) + 인스턴스가 생성이 될 때도 호출이 된다.
     //사용자가 허용했는데 아이폰 설정에서 나중에 허용을 거부한다면
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        //권한 요청 문구 띄우기
-        //항상 띄우진 않음 '처음' 기준은?
-        //iPhone 위치 섭시ㅡ
-        //notDetermined
-        
-        //1)사용자에게 권한 요청을 하기 위해, iOS 위치 서비스 활성화 여부 체크
         checkDeviceLocationAuthorization()
-        //2)현재 사용자의 위치 권한 상태 확인
-        checkCurrentLocationAuthorization()
-        //3)notDetermined일 때 권한을 요청
-
     }
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         print(status,"iOS14-")
